@@ -1,0 +1,429 @@
+/* =====================================================
+   STYLE.CSS  (Unit III: Cascading Style Sheets)
+   1. Variables        5. Cards, grid and flexbox
+   2. Basic styles     6. Tables
+   3. Header (nav)     7. Forms and buttons
+   4. Sections         8. Animation and responsive design
+   ===================================================== */
+
+
+/* ---------- 1. CSS VARIABLES ----------
+   Change a colour here and it changes on the whole website. */
+:root {
+  --main-color: #0f766e;     /* green */
+  --main-dark: #115e59;      /* darker green */
+  --page-bg: #f1f5f9;        /* light grey page background */
+  --card-bg: #ffffff;        /* white */
+  --text-color: #1e293b;     /* dark blue-grey text */
+  --border-color: #cbd5e1;
+  --red: #b91c1c;
+  --orange: #b45309;
+  --blue: #0369a1;
+}
+
+
+/* ---------- 2. BASIC STYLES ---------- */
+
+/* "*" is the universal selector: it selects every element.
+   box-sizing makes padding and border stay INSIDE the width we set (box model). */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;   /* smooth scrolling when a nav link is clicked */
+}
+
+body {
+  margin: 0;                 /* box model: margin = space OUTSIDE an element */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;           /* rem = relative to the base font size (16px) */
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--page-bg);
+}
+
+h1, h2, h3 {                 /* a comma selects several elements at once */
+  color: var(--main-color);
+  margin: 0 0 0.5rem 0;
+}
+
+a {
+  color: var(--blue);
+}
+
+/* Pseudo-class: :hover is when the mouse is over the element */
+a:hover {
+  text-decoration: none;
+}
+
+/* Pseudo-element ::first-letter styles only the first letter */
+.intro::first-letter {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+/* Attribute selector: links that start with "http" get an arrow after them.
+   ::after adds content with CSS only. */
+a[href^="http"]::after {
+  content: " \2197";
+}
+
+mark {
+  background-color: #fde68a;
+}
+
+del {
+  color: var(--red);
+}
+
+ins {
+  color: var(--main-color);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
+/* ---------- 3. HEADER AND NAVIGATION (Flexbox + position: sticky) ---------- */
+header {
+  position: sticky;          /* stays at the top while scrolling */
+  top: 0;
+  z-index: 10;               /* keeps the header above other content */
+  display: flex;             /* Flexbox: puts the children in a row */
+  flex-wrap: wrap;           /* go to the next line if there is not enough space */
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background-color: var(--card-bg);
+  border-bottom: 3px solid var(--main-color);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;          /* remove the bullet points */
+}
+
+nav a {
+  display: block;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  color: var(--text-color);
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;   /* smooth colour change on hover */
+}
+
+nav a:hover {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.shop-status {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Two classes that JavaScript adds to the status text */
+.open   { color: var(--main-color); }
+.closed { color: var(--red); }
+
+
+/* ---------- 4. SECTIONS ---------- */
+section {
+  max-width: 1000px;         /* the content never gets wider than 1000px */
+  margin: 0 auto;            /* auto left/right margins centre the section */
+  padding: 2rem 1rem;
+  scroll-margin-top: 5rem;   /* so the sticky header does not cover the heading */
+}
+
+.hero-art {
+  width: 220px;
+  max-width: 100%;
+  float: right;
+  animation: float 3s ease-in-out infinite;
+}
+
+footer {
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--card-bg);
+  border-top: 3px solid var(--main-color);
+}
+
+footer p {
+  margin: 0.2rem 0;
+}
+
+
+/* ---------- 5. CARDS, GRID AND FLEXBOX ---------- */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0;
+}
+
+/* CSS Grid: 3 equal columns */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  clear: both;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.number {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Flexbox: cards side by side. They wrap to a new line on small screens. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.row > .card {               /* ">" selects direct children only */
+  flex: 1 1 250px;           /* grow, shrink, start at 250px wide */
+}
+
+figure.card {
+  margin: 0;
+}
+
+figcaption {
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+video, audio, iframe {
+  width: 100%;
+  border-radius: 6px;
+}
+
+iframe {
+  height: 160px;
+  border: 1px solid var(--border-color);
+}
+
+address {
+  font-style: normal;
+}
+
+
+/* ---------- 6. TABLES ---------- */
+.table-wrap {
+  overflow-x: auto;          /* lets a wide table scroll sideways on phones */
+  margin: 1rem 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--card-bg);
+}
+
+caption {
+  text-align: left;
+  font-weight: bold;
+  padding: 0.4rem 0;
+}
+
+th, td {
+  padding: 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+thead th {
+  background-color: var(--main-color);
+  color: white;
+}
+
+/* Pseudo-class :nth-child(even) selects every 2nd row (zebra stripes) */
+tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+tbody tr:hover {
+  background-color: #ccfbf1;
+}
+
+tfoot th, tfoot td {
+  background-color: #e2e8f0;
+  font-weight: bold;
+}
+
+/* Status badges shown in the table */
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.ok      { background-color: var(--main-color); }
+.badge.low     { background-color: var(--orange); }
+.badge.out     { background-color: #475569; }
+.badge.expired { background-color: var(--red); }
+
+
+/* ---------- 7. FORMS AND BUTTONS ---------- */
+label {
+  display: block;
+  font-weight: bold;
+  margin: 0.5rem 0 0.2rem 0;
+}
+
+/* A little red star after labels that have the class "required" */
+label.required::after {
+  content: " *";
+  color: var(--red);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+}
+
+/* Pseudo-class :focus = the box you are typing in right now */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* :invalid = the value breaks a rule (required, min, pattern ...) */
+input:focus:invalid, textarea:focus:invalid {
+  border-color: var(--red);
+}
+
+/* Attribute selectors: choose inputs by their type */
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.4rem;
+}
+
+fieldset {
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+}
+
+fieldset label {
+  font-weight: normal;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);   /* 2 equal columns */
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  margin: 0.5rem 0.4rem 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: var(--main-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: var(--main-dark);
+  transform: translateY(-2px);   /* moves the button up a little */
+}
+
+button.secondary {
+  color: var(--main-color);
+  background-color: white;
+  border: 2px solid var(--main-color);
+}
+
+button.delete-btn {
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--red);
+}
+
+/* Messages shown after you press a button (JavaScript fills the text) */
+.message {
+  min-height: 1.5rem;
+  font-weight: bold;
+  animation: fade-in 0.5s;
+}
+
+.message.success { color: var(--main-color); }
+.message.error   { color: var(--red); }
+
+
+/* ---------- 8. ANIMATION AND RESPONSIVE DESIGN ---------- */
+
+/* @keyframes describes the steps of an animation */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+/* Media query: these rules are used only when the screen is 700px wide or less (phones) */
+@media (max-width: 700px) {
+  .stats,
+  .form-grid {
+    grid-template-columns: 1fr;   /* 1 column instead of 3 or 2 */
+  }
+
+  .hero-art {
+    float: none;
+    display: block;
+    margin: 0 auto;
+  }
+
+  header {
+    position: static;             /* the header scrolls away on phones */
+  }
+}

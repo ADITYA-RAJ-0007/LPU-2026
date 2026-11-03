@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<!--
+  PHARMACY MANAGEMENT SYSTEM - simple version
+  This project has 3 main files:
+    index.html = the content and structure of the page   (Unit I and Unit II)
+    style.css  = the colours and layout                  (Unit III)
+    script.js  = the behaviour (buttons, forms, tables)  (Unit IV)
+-->
+<html lang="en">
+<head>
+  <!-- UNIT I: the <head> holds information about the page (not shown on the page itself) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- UNIT I: SEO. Search engines read the title and the description -->
+  <title>MediCare Pharmacy Management System</title>
+  <meta name="description" content="MediCare Pharmacy Management System: keep track of medicines, stock and bills in one simple website.">
+  <meta name="keywords" content="pharmacy, medicines, stock, billing, HTML project">
+  <meta name="author" content="Aditya Raj">
+
+  <link rel="icon" href="logo.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- UNIT II: semantic element <header> = top part of the page -->
+  <header>
+    <div class="brand">
+      <!-- UNIT I: image. The alt text describes the image (good for SEO and screen readers) -->
+      <img src="logo.svg" alt="MediCare Pharmacy logo" width="40" height="40">
+      <h1>MediCare Pharmacy</h1>
+    </div>
+
+    <!-- UNIT II: <nav> = navigation links. UNIT I: href="#id" jumps to the section with that id -->
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#medicines">Medicines</a></li>
+        <li><a href="#billing">Billing</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- JavaScript writes "Open now" or "Closed now" here -->
+    <p id="shop-status" class="shop-status">&nbsp;</p>
+  </header>
+
+  <!-- UNIT II: <main> = the main content of the page -->
+  <main>
+
+    <!-- ================= HOME ================= -->
+    <section id="home">
+      <h2>Welcome</h2>
+
+      <!-- UNIT I: text formatting tags -->
+      <p class="intro">
+        Welcome to <strong>MediCare Pharmacy</strong>. Keep track of your <em>medicines</em>,
+        prepare <mark>bills with GST</mark> and see which stock is running low.
+      </p>
+      <p>
+        Today's offer: Paracetamol strip <del>₹30</del> <ins>₹25</ins>
+        (<abbr title="Maximum Retail Price">MRP</abbr>). Store below 25&nbsp;&deg;C.
+        Water is H<sub>2</sub>O and 10<sup>3</sup> is 1000. <small>All prices are demo prices.</small>
+      </p>
+
+      <!-- UNIT I: SVG graphic drawn with code -->
+      <svg class="hero-art" viewBox="0 0 200 100" role="img" aria-label="A capsule and a medical cross">
+        <rect x="20" y="40" width="80" height="32" rx="16" fill="#0ea5e9" transform="rotate(-25 60 56)"/>
+        <path d="M60 40 h22 a16 16 0 0 1 0 32 h-22 z" fill="#f43f5e" transform="rotate(-25 60 56)"/>
+        <circle cx="150" cy="50" r="34" fill="#0f766e"/>
+        <rect x="145" y="30" width="10" height="40" rx="3" fill="#ffffff"/>
+        <rect x="130" y="45" width="40" height="10" rx="3" fill="#ffffff"/>
+      </svg>
+
+      <!-- These 3 numbers are filled in by JavaScript -->
+      <div class="stats">
+        <article class="card">
+          <h3>Total medicines</h3>
+          <p class="number" id="stat-total">0</p>
+        </article>
+        <article class="card">
+          <h3>Low or out of stock</h3>
+          <p class="number" id="stat-low">0</p>
+        </article>
+        <article class="card">
+          <h3>Stock value</h3>
+          <p class="number" id="stat-value">₹0.00</p>
+        </article>
+      </div>
+
+      <!-- UNIT I: lists (ordered, description, unordered) and links -->
+      <div class="row">
+        <article class="card">
+          <h3>Daily checklist</h3>
+          <ol>
+            <li>Check expiry dates</li>
+            <li>Refill low-stock medicines</li>
+            <li>Check prescriptions</li>
+            <li>Make bills</li>
+          </ol>
+        </article>
+
+        <article class="card">
+          <h3>Short words</h3>
+          <dl>
+            <dt>Rx</dt>
+            <dd>Needs a doctor's prescription</dd>
+            <dt>OTC</dt>
+            <dd>Sold without prescription</dd>
+          </dl>
+        </article>
+
+        <article class="card">
+          <h3>Useful links</h3>
+          <ul>
+            <li><a href="https://www.who.int" target="_blank" rel="noopener noreferrer">World Health Organization</a></li>
+            <li><a href="#medicines">Go to medicines</a></li>
+            <li><a href="mailto:support@medicare-demo.example">support@medicare-demo.example</a></li>
+            <li><a href="tel:+911234567890">+91 12345 67890</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ================= MEDICINES ================= -->
+    <section id="medicines">
+      <h2>Medicines</h2>
+
+      <label for="search">Search by name</label>
+      <input type="search" id="search" placeholder="Type e.g. para">
+
+      <!-- UNIT II: table with caption, thead, tbody and tfoot -->
+      <div class="table-wrap">
+        <table>
+          <caption>Medicines in stock</caption>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Expiry date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Remove</th>
+            </tr>
+          </thead>
+          <!-- JavaScript fills this table body with one row per medicine -->
+          <tbody id="medicine-list"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" id="medicine-count"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- UNIT II: form to add a new medicine -->
+      <h3>Add a new medicine</h3>
+      <form id="add-form">
+        <div class="form-grid">
+
+          <div>
+            <label for="med-name" class="required">Medicine name</label>
+            <!-- required, minlength = built-in validation rules -->
+            <input type="text" id="med-name" placeholder="e.g. Dolo 650" required minlength="2" maxlength="30">
+          </div>
+
+          <div>
+            <label for="med-category" class="required">Category</label>
+            <select id="med-category" required>
+              <option value="">-- Choose --</option>
+              <option>Pain Relief</option>
+              <option>Antibiotic</option>
+              <option>Allergy</option>
+              <option>Digestive</option>
+              <option>Vitamins</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="med-price" class="required">Price (₹)</label>
+            <input type="number" id="med-price" placeholder="e.g. 25" required min="1" step="0.01">
+          </div>
+
+          <div>
+            <label for="med-quantity" class="required">Quantity</label>
+            <input type="number" id="med-quantity" placeholder="e.g. 100" required min="0" step="1">
+          </div>
+
+          <div>
+            <label for="med-expiry" class="required">Expiry date</label>
+            <input type="date" id="med-expiry" required>
+          </div>
+
+          <!-- UNIT II: fieldset + legend groups the radio buttons -->
+          <fieldset>
+            <legend>Type</legend>
+            <label><input type="radio" name="type" value="Tablet" checked> Tablet</label>
+            <label><input type="radio" name="type" value="Syrup"> Syrup</label>
+            <label><input type="radio" name="type" value="Injection"> Injection</label>
+          </fieldset>
+
+        </div>
+
+        <button type="submit">Add medicine</button>
+        <button type="button" id="reset-button" class="secondary">Restore sample medicines</button>
+        <p id="add-message" class="message" role="status"></p>
+      </form>
+    </section>
+
+
+    <!-- ================= BILLING ================= -->
+    <section id="billing">
+      <h2>Billing</h2>
+      <p>Step 1: choose a medicine and add it to the bill. Step 2: press "Generate bill".</p>
+
+      <form id="bill-form" class="inline-form">
+        <div>
+          <label for="bill-medicine">Medicine</label>
+          <select id="bill-medicine" required></select>
+        </div>
+        <div>
+          <label for="bill-quantity">Quantity</label>
+          <input type="number" id="bill-quantity" value="1" min="1" step="1" required>
+        </div>
+        <button type="submit">Add to bill</button>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Current bill</caption>
+          <thead>
+            <tr>
+              <th scope="col">Medicine</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="bill-list"></tbody>
+          <tfoot>
+            <tr><th scope="row" colspan="2">Subtotal</th><td id="bill-subtotal">₹0.00</td></tr>
+            <tr><th scope="row" colspan="2">GST (12%)</th><td id="bill-gst">₹0.00</td></tr>
+            <tr><th scope="row" colspan="2">Total to pay</th><td id="bill-total">₹0.00</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <button type="button" id="generate-button">Generate bill</button>
+      <button type="button" id="clear-button" class="secondary">Clear bill</button>
+      <p id="bill-message" class="message" role="status"></p>
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about">
+      <h2>About this project</h2>
+
+      <!-- UNIT II: <article> = a complete piece of content, <aside> = side information -->
+      <div class="row">
+        <article class="card">
+          <h3>What is this?</h3>
+          <p>
+            This is a small website for a pharmacy shop. It is built with
+            <abbr title="HyperText Markup Language">HTML</abbr>,
+            <abbr title="Cascading Style Sheets">CSS</abbr> and
+            <abbr title="JavaScript">JavaScript</abbr>.
+            The medicines are saved in your browser, so they are still there after you refresh.
+          </p>
+        </article>
+
+        <aside class="card">
+          <h3>Opening hours</h3>
+          <p>Every day: <time datetime="08:00">8:00 AM</time> to <time datetime="21:00">9:00 PM</time></p>
+          <!-- UNIT II: <address> = contact details -->
+          <address>
+            MediCare Pharmacy<br>
+            12 Health Street, Sample City
+          </address>
+        </aside>
+      </div>
+
+      <!-- UNIT I: video, audio and iframe -->
+      <div class="row">
+        <figure class="card">
+          <video controls width="320">
+            <source src="pharmacy-intro.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <figcaption>Video: welcome clip</figcaption>
+        </figure>
+
+        <figure class="card">
+          <audio controls>
+            <source src="welcome-chime.wav" type="audio/wav">
+            Your browser does not support the audio tag.
+          </audio>
+          <figcaption>Audio: shop door chime</figcaption>
+        </figure>
+
+        <figure class="card">
+          <iframe title="Map of the pharmacy" loading="lazy"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=77.18%2C28.60%2C77.24%2C28.64&amp;layer=mapnik"></iframe>
+          <figcaption>iframe: map (needs internet)</figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact">
+      <h2>Contact us</h2>
+
+      <form id="contact-form">
+        <div class="form-grid">
+
+          <div>
+            <label for="ct-name" class="required">Your name</label>
+            <input type="text" id="ct-name" placeholder="Your name" required minlength="2">
+          </div>
+
+          <div>
+            <label for="ct-email" class="required">Email</label>
+            <!-- type="email" checks that the text looks like an email address -->
+            <input type="email" id="ct-email" placeholder="you@example.com" required>
+          </div>
+
+          <div>
+            <label for="ct-phone">Mobile number</label>
+            <!-- pattern = a rule for the text. Here: 10 digits starting with 6, 7, 8 or 9 -->
+            <input type="tel" id="ct-phone" placeholder="10 digits" pattern="[6-9][0-9]{9}" title="Enter a 10 digit mobile number">
+          </div>
+
+          <div>
+            <label for="ct-topic">Topic</label>
+            <select id="ct-topic">
+              <option>General question</option>
+              <option>Medicine availability</option>
+              <option>Feedback</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="ct-rating">Rate our service: <output id="rating-output">3</output> / 5</label>
+            <input type="range" id="ct-rating" min="1" max="5" value="3">
+          </div>
+
+          <div>
+            <label for="ct-message" class="required">Message</label>
+            <textarea id="ct-message" rows="4" placeholder="Write at least 10 letters" required minlength="10"></textarea>
+          </div>
+
+        </div>
+
+        <label><input type="checkbox" id="ct-agree" required> I agree that my details can be used to reply to me.</label>
+        <button type="submit">Send message</button>
+        <p id="contact-message" class="message" role="status"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- UNIT II: <footer> = bottom part of the page -->
+  <footer>
+    <p>&copy; 2026 MediCare Pharmacy Management System &middot; HTML course project by Aditya Raj</p>
+    <p><small>For learning only. Not for real medical use.</small></p>
+  </footer>
+
+  <!-- The script goes at the END of the body so all the HTML above already exists when it runs -->
+  <script src="script.js"></script>
+</body>
+</html>
